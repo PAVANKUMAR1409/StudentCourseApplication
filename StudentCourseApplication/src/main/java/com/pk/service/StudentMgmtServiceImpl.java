@@ -61,7 +61,7 @@ public class StudentMgmtServiceImpl implements IStudentMgmtService {
 					.orElseThrow(() -> new StudentNotFoundException("Student Not Found with Id :: " + id));
 
 			model.setData(student);
-			model.setMessage("Student is saved with id :: " + student.getStudentId());
+			model.setMessage("Student Found  with id :: " + student.getStudentId());
 			model.setStatus(HttpStatus.OK.toString());
 		} catch (StudentNotFoundException e) {
 			model.setData(null);

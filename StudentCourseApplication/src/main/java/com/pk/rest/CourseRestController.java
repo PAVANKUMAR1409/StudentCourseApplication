@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pk.entity.Course;
+import com.pk.response.ResponseModel;
 import com.pk.service.ICourseMgmtService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,37 +28,38 @@ public class CourseRestController {
 	private ICourseMgmtService courseService;
 
 	@PostMapping("/save")
-	public ResponseEntity<String> saveCourse(@RequestBody Course course){
+	public ResponseEntity<ResponseModel<Course>> saveCourse(@RequestBody Course course){
 		log.info("CourseRestController.saveCourse() :: Started");
-		String msg=courseService.insertCourse(course);
+		ResponseModel<Course> model=courseService.insertCourse(course);
 		log.info("CourseRestController.saveCourse() :: Ended");
-		return new ResponseEntity<String>(msg,HttpStatus.OK);
+		return new ResponseEntity<>(model, HttpStatus.OK);
+		
 	}
 	
 	
 	@GetMapping("/findAll")
-	public ResponseEntity<List<Course>> getAllCourses(){
+	public ResponseEntity<ResponseModel<List<Course>>> getAllCourses(){
 		log.info("CourseRestController.getAllCourses() :: Started");
-		List<Course> listCourses=courseService.fetchAllCourses();
+		ResponseModel<List<Course>> fetchAllCourses = courseService.fetchAllCourses();
 		log.info("CourseRestController.getAllCourses() :: Ended");
-		return new ResponseEntity<List<Course>>(listCourses,HttpStatus.OK);
+		return new ResponseEntity<>(fetchAllCourses,HttpStatus.OK);
 	}
 	
 	@GetMapping("/findById/{id}")
-	public ResponseEntity<Course> getCourseById(@RequestParam String id){
+	public ResponseEntity<ResponseModel<Course>> getCourseById(@RequestParam String id){
 		log.info("CourseRestController.getCoursesById() :: Started");
-		Course course=courseService.fetchCourseById(id);
+		ResponseModel<Course> model= courseService.fetchCourseById(id);
 		log.info("CourseRestController.getCoursesById() :: Ended");
-		return new ResponseEntity<Course>(course,HttpStatus.OK);
+		return new ResponseEntity<>(model,HttpStatus.OK);
 	}
 	
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteCourseById(@RequestParam String id){
+	public ResponseEntity<ResponseModel<Course>> deleteCourseById(@RequestParam String id){
 		log.info("CourseRestController.deleteCourseById() :: Started");
-		String msg= courseService.removeCourseById(id);
+		ResponseModel<Course> model = courseService.removeCourseById(id);
 		log.info("CourseRestController.deleteById() :: Ended");
-		return new ResponseEntity<String>(msg,HttpStatus.OK);
+		return new ResponseEntity<>(model,HttpStatus.OK);
 		
 	}
 	
