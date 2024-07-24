@@ -23,47 +23,42 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/course-api")
 @Slf4j
 public class CourseRestController {
-	
+
 	@Autowired
 	private ICourseMgmtService courseService;
 
 	@PostMapping("/save")
-	public ResponseEntity<ResponseModel<Course>> saveCourse(@RequestBody Course course){
+	public ResponseEntity<ResponseModel<Course>> saveCourse(@RequestBody Course course) {
 		log.info("CourseRestController.saveCourse() :: Started");
-		ResponseModel<Course> model=courseService.insertCourse(course);
+		ResponseModel<Course> model = courseService.insertCourse(course);
 		log.info("CourseRestController.saveCourse() :: Ended");
 		return new ResponseEntity<>(model, HttpStatus.OK);
-		
+
 	}
-	
-	
+
 	@GetMapping("/findAll")
-	public ResponseEntity<ResponseModel<List<Course>>> getAllCourses(){
+	public ResponseEntity<ResponseModel<List<Course>>> getAllCourses() {
 		log.info("CourseRestController.getAllCourses() :: Started");
 		ResponseModel<List<Course>> fetchAllCourses = courseService.fetchAllCourses();
 		log.info("CourseRestController.getAllCourses() :: Ended");
-		return new ResponseEntity<>(fetchAllCourses,HttpStatus.OK);
+		return new ResponseEntity<>(fetchAllCourses, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/findById/{id}")
-	public ResponseEntity<ResponseModel<Course>> getCourseById(@RequestParam String id){
+	public ResponseEntity<ResponseModel<Course>> getCourseById(@RequestParam String id) {
 		log.info("CourseRestController.getCoursesById() :: Started");
-		ResponseModel<Course> model= courseService.fetchCourseById(id);
+		ResponseModel<Course> model = courseService.fetchCourseById(id);
 		log.info("CourseRestController.getCoursesById() :: Ended");
-		return new ResponseEntity<>(model,HttpStatus.OK);
+		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
-	
-	
+
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<ResponseModel<Course>> deleteCourseById(@RequestParam String id){
+	public ResponseEntity<ResponseModel<Course>> deleteCourseById(@RequestParam String id) {
 		log.info("CourseRestController.deleteCourseById() :: Started");
 		ResponseModel<Course> model = courseService.removeCourseById(id);
 		log.info("CourseRestController.deleteById() :: Ended");
-		return new ResponseEntity<>(model,HttpStatus.OK);
-		
+		return new ResponseEntity<>(model, HttpStatus.OK);
+
 	}
-	
-	
-	
-	
+
 }

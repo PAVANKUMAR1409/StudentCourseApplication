@@ -31,9 +31,9 @@ public class StudentRestController {
 	@PostMapping("/save")
 	public ResponseEntity<ResponseModel<Student>> saveStudent(@RequestBody Student student) {
 
-		log.info("StudentRestController.saveStudent() :: Started");
+		log.info("savestudent - Request received to save the student data");
 		ResponseModel<Student> model = stuService.insertStudent(student);
-		log.info("StudentRestController.saveStudent() :: Ended");
+		log.info("savestudent - Successfully  saved the student data");
 		// return new ResponseEntity<>(HttpStatus.OK).ok(model);
 		return new ResponseEntity<>(model, HttpStatus.OK);
 
@@ -41,9 +41,9 @@ public class StudentRestController {
 
 	@GetMapping("/findAll")
 	public ResponseEntity<ResponseModel<List<Student>>> fetchAllStudent() {
-		log.info("StudentRestController.fetchAllStudent() :: Started");
+		log.info("fetchAllStudent - Request received to fetch all students");
 		ResponseModel<List<Student>> model = stuService.getAllStudents();
-		log.info("StudentRestController.fetchAllStudent() :: Ended");
+		log.info("fetchAllStudent - Successfully fetched all students");
 
 		return new ResponseEntity<>(model, HttpStatus.OK);
 
@@ -51,25 +51,25 @@ public class StudentRestController {
 
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<ResponseModel<Student>> searchStudentByid(@RequestParam String id) {
-		log.info("StudentRestController.searchStudentById() :: Started");
+		log.info("searchStudentByid - Request received to search Student By Id");
 		ResponseModel<Student> model = stuService.getStudentById(id);
-		log.info("StudentRestController.searchStudentById() :: Ended");
+		log.info("searchStudentByid - Successfully fetched the Student");
 		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
 
 	@PutMapping("/modify")
 	public ResponseEntity<ResponseModel<Student>> modifyStudentDetails(@RequestBody Student student) {
-		log.info("StudentRestController.modifyStudentDetails() :: Started");
+		log.info("modifyStudentDetails - Request received to modify the Student data");
 		ResponseModel<Student> updatedStudent = stuService.updateStudent(student);
-		log.info("StudentRestController.modifyStudentDetails() :: Ended");
+		log.info("modifyStudentDetails - Successfully modified  the Student data");
 		return new ResponseEntity<ResponseModel<Student>>(updatedStudent, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<ResponseModel<Student>> deleteStudentById(@RequestParam String id) {
-		log.info("StudentRestController.deleteStudentById() :: Started");
+		log.info("deleteStudentById - Request received to delete the Student");
 		ResponseModel<Student> removedStudent = stuService.removeStudentById(id);
-		log.info("StudentRestController.deleteStudentById() :: Ended");
+		log.info("deleteStudentById - Successfully  deleted the Student");
 		return new ResponseEntity<>(removedStudent, HttpStatus.OK);
 	}
 
