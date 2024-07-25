@@ -25,7 +25,7 @@ public class StudentHandlingException {
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ResponseModel<String>> handleGlobalException(Exception ex, WebRequest request) {
+	public ResponseEntity<ResponseModel<String>> handleGlobalException(Exception ex) {
 		log.error("Exception: ", ex);
 		ResponseModel<String> responseModel = new ResponseModel<>();
 		responseModel.setMessage("An unexpected error occurred");

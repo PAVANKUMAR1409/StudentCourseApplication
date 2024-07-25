@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.pk.entity.Course;
+import com.pk.exception.CourseNotFoundException;
 import com.pk.exception.StudentNotFoundException;
 import com.pk.repository.CourseRepository;
 import com.pk.response.ResponseModel;
@@ -60,13 +61,13 @@ public class CourseMgmtServiceImpl implements ICourseMgmtService {
 		ResponseModel<Course> model = new ResponseModel<>();
 		try {
 			Course course=courseRepo.findById(id)
-				.orElseThrow(()->new StudentNotFoundException("Course Not Found with Id :: "+id));
+				.orElseThrow(()->new CourseNotFoundException("Course Not Found with Id :: "+id));
 			
 			model.setData(course);
 			model.setMessage("Course Found with id :: "+course.getCourseId());
 			model.setStatus(HttpStatus.OK.toString());
 			return model;
-		}catch (StudentNotFoundException e) {
+		}catch (CourseNotFoundException e) {
 			model.setData(null);
 			model.setMessage(e.getMessage());
 			model.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
@@ -81,13 +82,13 @@ public class CourseMgmtServiceImpl implements ICourseMgmtService {
 		ResponseModel<Course> model = new ResponseModel<>();
 		try {
 			Course course=courseRepo.findById(id)
-				.orElseThrow(()->new StudentNotFoundException("Course Not Found with Id :: "+id));
+				.orElseThrow(()->new CourseNotFoundException("Course Not Found with Id :: "+id));
 			courseRepo.deleteById(id);
 			model.setData(course);
 			model.setMessage("Course Found and Deleted");
 			model.setStatus(HttpStatus.OK.toString());
 			return model;
-		}catch (StudentNotFoundException e) {
+		}catch (CourseNotFoundException e) {
 			model.setData(null);
 			model.setMessage(e.getMessage());
 			model.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());

@@ -16,4 +16,6 @@ public interface IStudentMgmtService {
 	public ResponseModel<Student> updateStudent(Student student);
 
 	public ResponseModel<Student> removeStudentById(String id);
+
+	public ResponseModel<Student> mapStudentWithCourses(String sid, List<String> cids);
 }

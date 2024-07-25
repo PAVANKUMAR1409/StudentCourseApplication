@@ -1,5 +1,6 @@
 package com.pk.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.pk.entity.Course;
 import com.pk.entity.Student;
+import com.pk.exception.CourseNotFoundException;
 import com.pk.exception.StudentNotFoundException;
+import com.pk.repository.CourseRepository;
 import com.pk.repository.StudentRepository;
 import com.pk.response.ResponseModel;
 
@@ -21,6 +25,9 @@ public class StudentMgmtServiceImpl implements IStudentMgmtService {
 	@Autowired
 	private StudentRepository studentRepo;
 
+	@Autowired
+	private CourseRepository courseRepo;
+
 	@Override
 	public ResponseModel<Student> insertStudent(Student student) {
 		ResponseModel<Student> model = new ResponseModel<Student>();
@@ -30,7 +37,9 @@ public class StudentMgmtServiceImpl implements IStudentMgmtService {
 			model.setMessage("Student object is null");
 			return model;
 		}
+		log.info(student.toString());
 		Student save = studentRepo.save(student);
+		log.info(save.toString());
 		model.setData(save);
 		model.setMessage("Student Data saved with id " + save.getStudentId());
 		model.setStatus(HttpStatus.CREATED.toString());
@@ -168,7 +177,7 @@ public class StudentMgmtServiceImpl implements IStudentMgmtService {
 		ResponseModel<Student> model = new ResponseModel<Student>();
 
 		Student removed = studentRepo.findById(id)
-				.orElseThrow(() -> new StudentNotFoundException("Student Not Found with Id :: " + id));
+										.orElseThrow(() -> new StudentNotFoundException("Student Not Found with Id :: " + id));
 		studentRepo.deleteById(removed.getStudentId());
 		model.setData(removed);
 		model.setMessage("Student Deleted with Id :: " + id);
@@ -194,5 +203,35 @@ public class StudentMgmtServiceImpl implements IStudentMgmtService {
 		}
 		return model;
 	}*/
+
+	@Override
+	public ResponseModel<Student> mapStudentWithCourses(String sid, List<String> cids) {
+
+		Student student = studentRepo.findById(sid)
+				.orElseThrow(() -> new StudentNotFoundException("Student Not Found With id :: " + sid));
+
+		for (String cid : cids) {
+			courseRepo.findById(cid)
+					.orElseThrow(() -> new CourseNotFoundException("Course Not Found with id :: " + cid));
+
+//			List<String> stuList = course.getStudentIds();
+//			stuList.add(sid);
+//			
+//			
+//			course.setStudentIds(stuList);
+//			courseRepo.save(course);
+
+		}
+
+		student.setCourseIds(cids);
+
+		Student saved = studentRepo.save(student);
+
+		ResponseModel<Student> model = new ResponseModel<Student>();
+		model.setData(saved);
+		model.setMessage("Student Dated Updated with Courses " + cids.toString() + " for id :: " + sid);
+		model.setStatus(HttpStatus.OK.toString());
+		return model;
+	}
 
 }

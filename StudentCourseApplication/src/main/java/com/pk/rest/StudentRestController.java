@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/student-api")
 @Slf4j
+@CrossOrigin
 public class StudentRestController {
 
 	@Autowired
@@ -50,7 +54,7 @@ public class StudentRestController {
 	}
 
 	@GetMapping("/findById/{id}")
-	public ResponseEntity<ResponseModel<Student>> searchStudentByid(@RequestParam String id) {
+	public ResponseEntity<ResponseModel<Student>> searchStudentByid(@PathVariable String id) {
 		log.info("searchStudentByid - Request received to search Student By Id");
 		ResponseModel<Student> model = stuService.getStudentById(id);
 		log.info("searchStudentByid - Successfully fetched the Student");
@@ -66,11 +70,21 @@ public class StudentRestController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<ResponseModel<Student>> deleteStudentById(@RequestParam String id) {
+	public ResponseEntity<ResponseModel<Student>> deleteStudentById(@PathVariable String id) {
 		log.info("deleteStudentById - Request received to delete the Student");
 		ResponseModel<Student> removedStudent = stuService.removeStudentById(id);
 		log.info("deleteStudentById - Successfully  deleted the Student");
 		return new ResponseEntity<>(removedStudent, HttpStatus.OK);
+	}
+	
+	
+	@PatchMapping("/mapping/{sid}")
+	public ResponseEntity<ResponseModel<Student>> mappingStudentandCourse(@PathVariable String sid,@RequestBody List<String> cids){
+		
+		ResponseModel<Student> model= stuService.mapStudentWithCourses(sid, cids);
+		return new ResponseEntity<ResponseModel<Student>>(model,HttpStatus.OK);
+		
+		
 	}
 
 }
