@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +55,14 @@ public class CourseRestController {
 		ResponseModel<Course> model = courseService.fetchCourseById(id);
 		log.info("CourseRestController.getCoursesById() :: Ended");
 		return new ResponseEntity<>(model, HttpStatus.OK);
+	}
+	
+	@PutMapping("/modify/{courseId}/{duration}/{fee}")
+	public ResponseEntity<ResponseModel<Course>> modifyCourseFeeAndDuration(@PathVariable String courseId, @PathVariable Integer duration, @PathVariable Double fee){
+		log.info("modifyCourseFeeAndDuration - Request recieved to modify the course data");
+		ResponseModel<Course> model=courseService.updateCourseFeeAndDuration(courseId,duration,fee);
+		log.info("modifyCourseFeeAndDuration - Successfully modified the course data");
+		return new ResponseEntity<ResponseModel<Course>>(model,HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")

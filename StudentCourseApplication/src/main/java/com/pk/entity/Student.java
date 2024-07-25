@@ -22,9 +22,9 @@ public class Student {
 	private String studentId;
 
 	@NonNull
-	private String fName;
+	private String fname;
 	@NonNull
-	private String lName;
+	private String lname;
 	@NonNull
 	private String mailId;
 	@NonNull

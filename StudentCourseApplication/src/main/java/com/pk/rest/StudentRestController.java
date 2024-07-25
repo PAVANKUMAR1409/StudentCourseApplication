@@ -61,10 +61,10 @@ public class StudentRestController {
 		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
 
-	@PutMapping("/modify")
-	public ResponseEntity<ResponseModel<Student>> modifyStudentDetails(@RequestBody Student student) {
+	@PutMapping("/modify/{studentId}/{mailId}/{phoneNo}")
+	public ResponseEntity<ResponseModel<Student>> modifyStudentDetails(@PathVariable String studentId, @PathVariable String mailId, @PathVariable Long phoneNo) {
 		log.info("modifyStudentDetails - Request received to modify the Student data");
-		ResponseModel<Student> updatedStudent = stuService.updateStudent(student);
+		ResponseModel<Student> updatedStudent = stuService.updateStudent(studentId, mailId, phoneNo);
 		log.info("modifyStudentDetails - Successfully modified  the Student data");
 		return new ResponseEntity<ResponseModel<Student>>(updatedStudent, HttpStatus.OK);
 	}

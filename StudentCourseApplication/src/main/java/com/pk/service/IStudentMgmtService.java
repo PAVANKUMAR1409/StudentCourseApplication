@@ -13,9 +13,11 @@ public interface IStudentMgmtService {
 
 	public ResponseModel<Student> getStudentById(String id);
 
-	public ResponseModel<Student> updateStudent(Student student);
+	
 
 	public ResponseModel<Student> removeStudentById(String id);
 
 	public ResponseModel<Student> mapStudentWithCourses(String sid, List<String> cids);
+
+	public ResponseModel<Student> updateStudent(String studentId, String mailId, Long phoneNo);
 }

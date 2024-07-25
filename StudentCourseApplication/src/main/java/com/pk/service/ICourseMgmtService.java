@@ -15,4 +15,6 @@ public interface ICourseMgmtService {
 
 	public ResponseModel<Course> removeCourseById(String id);
 
+	public ResponseModel<Course> updateCourseFeeAndDuration(String id, Integer duration, Double fee);
+
 }

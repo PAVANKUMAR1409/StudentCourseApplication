@@ -13,7 +13,10 @@ import com.pk.exception.StudentNotFoundException;
 import com.pk.repository.CourseRepository;
 import com.pk.response.ResponseModel;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CourseMgmtServiceImpl implements ICourseMgmtService {
 	
 	@Autowired
@@ -95,6 +98,25 @@ public class CourseMgmtServiceImpl implements ICourseMgmtService {
 			return model;
 
 		}
+	}
+
+	@Override
+	public ResponseModel<Course> updateCourseFeeAndDuration(String id, Integer duration, Double fee) {
+		Course course = courseRepo.findById(id)
+							.orElseThrow(()->new StudentNotFoundException("Course Not Found with Id :: "+id));
+		log.info(""+duration);
+		log.info(""+fee);
+		
+		course.setCourseDuration(duration);
+		course.setCourseFee(fee);
+		
+		courseRepo.save(course);
+		
+		ResponseModel<Course> model = new ResponseModel<Course>();
+		model.setData(course);
+		model.setMessage("Course With id "+id+" successfully modified");
+		model.setStatus(HttpStatus.OK.toString());
+		return model;
 	}
 	
 	

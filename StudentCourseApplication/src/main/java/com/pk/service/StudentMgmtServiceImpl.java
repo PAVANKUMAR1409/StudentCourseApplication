@@ -134,17 +134,16 @@ public class StudentMgmtServiceImpl implements IStudentMgmtService {
 	}*/
 
 	@Override
-	public ResponseModel<Student> updateStudent(Student student) {
+	public ResponseModel<Student> updateStudent(String studentId, String mailId, Long phoneNo) {
 
 		ResponseModel<Student> model = new ResponseModel<Student>();
-
-		Optional<Student> studentById = studentRepo.findById(student.getStudentId());
-		if (studentById.isPresent()) {
-			studentRepo.save(student);
-		} else {
-			throw new StudentNotFoundException("Student Not Found with id :: " + student.getStudentId());
-		}
-		model.setData(studentById.get());
+		Student student = studentRepo.findById(studentId)
+								.orElseThrow(()->new StudentNotFoundException("Student Not Found with id :: "+studentId));
+		student.setMailId(mailId);
+		student.setPhoneNo(phoneNo);
+		
+		studentRepo.save(student);
+		model.setData(student);
 		model.setMessage("Student Data Modified for Id :: " + student.getStudentId());
 		model.setStatus(HttpStatus.OK.toString());
 
